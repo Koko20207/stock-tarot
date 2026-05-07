@@ -1,0 +1,2989 @@
+:root {
+  --bg-top: #211238;
+  --bg-bottom: #05030d;
+  --panel: rgba(18, 12, 30, 0.84);
+  --panel-border: rgba(244, 206, 132, 0.18);
+  --teal: #72ead8;
+  --teal-soft: rgba(114, 234, 216, 0.16);
+  --gold: #f4ce84;
+  --gold-soft: rgba(244, 206, 132, 0.16);
+  --crimson: #e35f74;
+  --violet: #8d78ff;
+  --foam: #fff7df;
+  --warning: #ffbd69;
+  --hot: #ff6d7f;
+  --ink: #fffaf0;
+  --muted: #cbbfda;
+  --shadow: 0 22px 45px rgba(0, 0, 0, 0.28);
+  --radius: 24px;
+  --card-bg: rgba(255, 255, 255, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Palatino Linotype", "Trebuchet MS", "Gill Sans", serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(141, 120, 255, 0.24), transparent 34%),
+    radial-gradient(circle at top right, rgba(244, 206, 132, 0.16), transparent 28%),
+    radial-gradient(circle at 50% 20%, rgba(227, 95, 116, 0.1), transparent 32%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  -webkit-tap-highlight-color: transparent;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(244, 206, 132, 0.22) 0 1px, transparent 1.5px),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 54px 54px, 32px 32px, 32px 32px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.24), transparent 75%);
+}
+
+.app-shell {
+  width: min(1420px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 16px 0 36px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.72fr);
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 20px;
+}
+
+.hero-copy,
+.hero-note,
+.card {
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+}
+
+.hero-copy {
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-copy::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: -60px;
+  top: -70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 206, 132, 0.24), transparent 65%);
+}
+
+.eyebrow,
+.note-title,
+.detail-kicker,
+.detail-section-title {
+  margin: 0 0 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-size: 0.78rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 5vw, 4.8rem);
+  line-height: 0.95;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+h3,
+h4 {
+  margin-bottom: 8px;
+}
+
+.hero-text,
+.panel-head p,
+.detail-summary,
+.control span,
+.legend p,
+.meter-label,
+.bucket-item p,
+.detail-grid dd,
+.strategy-head p,
+.strategy-summary,
+.hero-note p,
+.tech-card span,
+.detail-note {
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.hero-actions:has(.install-btn[hidden]) {
+  display: none;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+.primary-btn,
+.ghost-btn,
+.mini-btn {
+  border: 0;
+  cursor: pointer;
+  transition: transform 180ms ease, opacity 180ms ease, background 180ms ease,
+    border-color 180ms ease;
+}
+
+.primary-btn,
+.ghost-btn {
+  border-radius: 999px;
+  padding: 12px 18px;
+}
+
+.primary-btn {
+  color: #26140a;
+  font-weight: 700;
+  background: linear-gradient(135deg, #f7d88f, #ffb85c 56%, #ffdfaa);
+}
+
+.ghost-btn {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mini-btn {
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.primary-btn:hover,
+.ghost-btn:hover,
+.mini-btn:hover,
+.fish:hover,
+.bucket-item button:hover {
+  transform: translateY(-2px);
+}
+
+.hero-note {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-rows: minmax(540px, 1fr) auto;
+  gap: 20px;
+}
+
+.card {
+  padding: 22px;
+}
+
+.detail-panel {
+  grid-row: span 2;
+}
+
+.pond {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.aquarium {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.detail-panel {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.bucket {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.pond {
+  padding-bottom: 18px;
+}
+
+.panel-head {
+  margin-bottom: 18px;
+}
+
+.pond .control-panel {
+  grid-row: auto;
+  margin: 0 0 14px;
+  padding: 0;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(244, 206, 132, 0.08), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.deck-filter-details {
+  display: block;
+}
+
+.deck-filter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.deck-filter-summary::-webkit-details-marker {
+  display: none;
+}
+
+.deck-filter-summary .panel-head {
+  margin-bottom: 0;
+}
+
+.deck-filter-summary .panel-head p {
+  margin-bottom: 0;
+}
+
+.deck-filter-toggle {
+  flex: 0 0 auto;
+}
+
+.deck-filter-toggle::before {
+  content: "展開";
+}
+
+.deck-filter-details[open] .deck-filter-toggle::before {
+  content: "收合";
+}
+
+.deck-filter-body {
+  padding: 0 16px 16px;
+}
+
+.deck-filter-panel .basic-filter-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.deck-filter-panel .toggle {
+  margin: 12px 0;
+}
+
+.deck-filter-panel .meter {
+  grid-template-columns: repeat(2, minmax(0, 150px));
+  margin-bottom: 12px;
+}
+
+.deck-filter-panel .meter > div {
+  padding: 10px 12px;
+}
+
+.deck-filter-panel .meter strong {
+  font-size: 1.35rem;
+}
+
+.deck-filter-panel .strategy-panel {
+  margin-bottom: 0;
+}
+
+.deck-filter-panel .legend {
+  display: none;
+}
+
+.basic-filter-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.control {
+  display: grid;
+  gap: 8px;
+}
+
+.control-wide {
+  grid-column: 1 / -1;
+}
+
+select {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--ink);
+  padding: 12px 14px;
+}
+
+.toggle {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 16px 0 20px;
+  color: var(--ink);
+}
+
+.toggle input,
+.strategy-pill input {
+  accent-color: var(--teal);
+}
+
+.meter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.meter > div,
+.legend,
+.bucket-item,
+.status-chip,
+.aquarium-count,
+.detail-card,
+.chip,
+.score-pill,
+.price-pill,
+.tech-card,
+.match-chip,
+.strategy-panel,
+.strategy-group,
+.tank-fish,
+.favorite-btn {
+  border-radius: 18px;
+}
+
+.meter > div,
+.legend,
+.bucket-item,
+.detail-card,
+.strategy-panel,
+.strategy-group,
+.tech-card,
+.tank-fish {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.meter > div {
+  padding: 14px;
+}
+
+.meter strong {
+  font-size: 1.8rem;
+}
+
+.strategy-panel {
+  padding: 0;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.strategy-head {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0;
+  padding: 18px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.strategy-head::-webkit-details-marker {
+  display: none;
+}
+
+.strategy-head h3 {
+  margin-bottom: 4px;
+}
+
+.strategy-head p {
+  margin-bottom: 0;
+}
+
+.strategy-summary {
+  min-height: 1.5em;
+  margin-bottom: 0;
+}
+
+.strategy-body {
+  padding: 0 18px 18px;
+}
+
+.strategy-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.strategy-actions p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.strategy-toggle-label {
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.strategy-panel[open] .strategy-toggle-label {
+  border-color: rgba(114, 234, 216, 0.28);
+  background: rgba(114, 234, 216, 0.14);
+}
+
+.strategy-panel.has-active-filters:not([open]) {
+  border-color: rgba(244, 206, 132, 0.28);
+}
+
+.strategy-groups {
+  display: grid;
+  gap: 12px;
+}
+
+.strategy-group {
+  padding: 14px;
+}
+
+.strategy-group h4 {
+  margin-bottom: 4px;
+}
+
+.strategy-group p {
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.strategy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.strategy-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+  min-height: 42px;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.strategy-pill:hover {
+  transform: translateY(-1px);
+  border-color: rgba(97, 230, 215, 0.22);
+}
+
+.strategy-pill.active {
+  border-color: rgba(97, 230, 215, 0.42);
+  background: rgba(97, 230, 215, 0.12);
+}
+
+.strategy-pill span {
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.legend {
+  padding: 16px;
+}
+
+.legend-title {
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.dot-strong {
+  background: var(--teal);
+}
+
+.dot-watch {
+  background: var(--warning);
+}
+
+.dot-hot {
+  background: var(--hot);
+}
+
+.dot-breakout {
+  background: #a5f06a;
+}
+
+.pond-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.deck-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.deck-title-row h2 {
+  margin: 0;
+}
+
+.ticker-search {
+  display: flex;
+  flex: 1 1 280px;
+  max-width: 420px;
+  gap: 6px;
+  align-items: center;
+}
+
+.ticker-search input {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid rgba(244, 206, 132, 0.22);
+  border-radius: 999px;
+  padding: 8px 13px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.07);
+  outline: none;
+}
+
+.ticker-search input:focus {
+  border-color: rgba(244, 206, 132, 0.66);
+  box-shadow: 0 0 0 3px rgba(244, 206, 132, 0.14);
+}
+
+.deck-title-row .install-btn {
+  flex: 0 0 auto;
+}
+
+.install-ready {
+  border-color: rgba(114, 234, 216, 0.34);
+  box-shadow: 0 0 0 3px rgba(114, 234, 216, 0.08);
+}
+
+.status-chip {
+  padding: 10px 14px;
+  border: 1px solid rgba(97, 230, 215, 0.2);
+  background: rgba(97, 230, 215, 0.1);
+  color: var(--foam);
+  white-space: nowrap;
+}
+
+.pond-toolbar {
+  display: none;
+}
+
+.selected-summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 12px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(244, 206, 132, 0.18);
+  border-radius: 18px;
+  background: rgba(244, 206, 132, 0.08);
+}
+
+.selected-summary span {
+  color: var(--gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.selected-summary strong {
+  color: var(--foam);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-summary em {
+  grid-column: 2;
+  color: var(--muted);
+  font-style: normal;
+  font-size: 0.84rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-reading {
+  grid-column: 2;
+  display: -webkit-box;
+  margin: 2px 0 0;
+  color: #fff4ce;
+  font-size: 0.82rem;
+  line-height: 1.42;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.selected-summary.empty {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.selected-summary.up em {
+  color: #6ef2a0;
+}
+
+.selected-summary.down em {
+  color: #ff9ca7;
+}
+
+.pond-surface {
+  position: relative;
+  min-height: 470px;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.18), transparent 10%),
+    radial-gradient(circle at 72% 24%, rgba(255, 255, 255, 0.12), transparent 12%),
+    radial-gradient(circle at center bottom, rgba(0, 0, 0, 0.18), transparent 35%),
+    linear-gradient(180deg, #0e486a 0%, #0b3853 28%, #082d44 58%, #061f31 100%);
+}
+
+.pond-surface::before,
+.pond-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.pond-surface::before {
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.03),
+      transparent 22%,
+      rgba(255, 255, 255, 0.04),
+      transparent 55%
+    );
+  animation: shimmer 7s linear infinite;
+}
+
+.pond-surface::after {
+  background: linear-gradient(180deg, transparent 62%, rgba(255, 190, 112, 0.12));
+  pointer-events: none;
+}
+
+.aquarium {
+  overflow: hidden;
+}
+
+.aquarium-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.aquarium-head p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.aquarium-count {
+  display: grid;
+  place-items: center;
+  min-width: 72px;
+  padding: 10px 12px;
+  border: 1px solid rgba(97, 230, 215, 0.18);
+  background: rgba(97, 230, 215, 0.1);
+}
+
+.aquarium-count strong {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.aquarium-count span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.aquarium-surface {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  justify-items: center;
+  align-items: center;
+  min-height: 190px;
+  padding: 16px;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(151, 209, 231, 0.16);
+  background:
+    linear-gradient(180deg, rgba(82, 207, 229, 0.2), rgba(13, 65, 88, 0.32)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 54px),
+    linear-gradient(180deg, #0b4059, #052233);
+}
+
+.aquarium-surface::before {
+  content: "";
+  position: absolute;
+  inset: auto -20px 0;
+  height: 42px;
+  background:
+    radial-gradient(ellipse at 18% 100%, rgba(240, 208, 138, 0.3), transparent 42%),
+    radial-gradient(ellipse at 74% 100%, rgba(240, 208, 138, 0.22), transparent 38%);
+  pointer-events: none;
+}
+
+.aquarium-empty {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  justify-self: center;
+  max-width: 260px;
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+}
+
+.casting-line {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+  left: 50%;
+  transform-origin: top center;
+  opacity: 0;
+  transition: left 280ms ease, height 280ms ease, opacity 180ms ease;
+}
+
+.bobber {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff, #ff784f 56%, #d54a28 100%);
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.06);
+  left: 50%;
+  top: 18%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: left 280ms ease, top 280ms ease, opacity 180ms ease;
+  z-index: 5;
+}
+
+.bobber.active,
+.casting-line.active {
+  opacity: 1;
+}
+
+.ripples {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ripple-a {
+  width: 220px;
+  height: 80px;
+  left: 8%;
+  bottom: 14%;
+}
+
+.ripple-b {
+  width: 180px;
+  height: 60px;
+  right: 10%;
+  top: 16%;
+}
+
+.fish {
+  position: absolute;
+  border: 0;
+  color: #02252d;
+  border-radius: 999px 48px 48px 999px;
+  box-shadow: 0 14px 22px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transform-origin: center center;
+  transition: transform 200ms ease, filter 180ms ease;
+  animation: float 4s ease-in-out infinite;
+  padding: 11px 14px 11px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-height: 56px;
+}
+
+.fish::after {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left: 16px solid currentColor;
+  filter: brightness(0.96);
+}
+
+.fish::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.fish strong,
+.fish span {
+  display: block;
+  pointer-events: none;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fish strong {
+  font-size: 0.92rem;
+  line-height: 1.1;
+}
+
+.fish span {
+  font-size: 0.74rem;
+  opacity: 0.72;
+}
+
+.fish.facing-left {
+  border-radius: 48px 999px 999px 48px;
+}
+
+.fish.facing-left::after {
+  left: -14px;
+  right: auto;
+  border-left: 0;
+  border-right: 16px solid currentColor;
+}
+
+.fish.facing-left::before {
+  left: auto;
+  right: 12px;
+}
+
+.fish.selected {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  filter: saturate(1.05) brightness(1.05);
+}
+
+.fish.strong {
+  background: linear-gradient(135deg, #88fff4, #54e5d6);
+}
+
+.fish.watch {
+  background: linear-gradient(135deg, #ffd28d, #ffb35c);
+}
+
+.fish.hot {
+  background: linear-gradient(135deg, #ffa7a1, #ff6f66);
+}
+
+.fish.breakout {
+  background: linear-gradient(135deg, #d8ff8f, #88e665);
+}
+
+.tank-fish.strong {
+  background: linear-gradient(135deg, #88fff4, #54e5d6);
+}
+
+.tank-fish.watch {
+  background: linear-gradient(135deg, #ffd28d, #ffb35c);
+}
+
+.tank-fish.hot {
+  background: linear-gradient(135deg, #ffa7a1, #ff6f66);
+}
+
+.tank-fish.breakout {
+  background: linear-gradient(135deg, #d8ff8f, #88e665);
+}
+
+.fish.theme-ai,
+.tank-fish.theme-ai {
+  color: #04242c;
+}
+
+.fish.theme-pcb,
+.tank-fish.theme-pcb {
+  color: #2f1616;
+}
+
+.fish.theme-foundry,
+.tank-fish.theme-foundry {
+  color: #10192e;
+}
+
+.fish.theme-power,
+.tank-fish.theme-power {
+  color: #2d2305;
+}
+
+.fish.theme-memory,
+.tank-fish.theme-memory {
+  color: #142013;
+}
+
+.fish.theme-optical,
+.tank-fish.theme-optical {
+  color: #081b25;
+}
+
+.fish.theme-etf,
+.tank-fish.theme-etf {
+  color: #201623;
+}
+
+.fish.shape-ray {
+  border-radius: 46% 52% 44% 58% / 58% 36% 64% 42%;
+}
+
+.fish.shape-angler {
+  border-radius: 18px 44px 44px 18px;
+  transform: skewX(-3deg);
+}
+
+.fish.shape-orca {
+  border-radius: 999px 38px 38px 999px;
+  border-bottom: 4px solid rgba(255, 255, 255, 0.38);
+}
+
+.fish.shape-sail {
+  border-radius: 999px 36px 52px 999px;
+  border-top: 5px solid rgba(255, 255, 255, 0.36);
+}
+
+.fish.shape-guppy {
+  border-radius: 999px 26px 999px 30px;
+}
+
+.fish.trend-up,
+.tank-fish.trend-up {
+  box-shadow: 0 14px 24px rgba(39, 221, 126, 0.2), 0 12px 20px rgba(0, 0, 0, 0.16);
+}
+
+.fish.trend-down,
+.tank-fish.trend-down {
+  box-shadow: 0 14px 24px rgba(255, 98, 98, 0.22), 0 12px 20px rgba(0, 0, 0, 0.16);
+}
+
+.fish-price.up,
+.tank-price.up,
+.tank-change.up,
+.price-pill.up {
+  color: #53f28f;
+}
+
+.fish-price.down,
+.tank-price.down,
+.tank-change.down,
+.price-pill.down {
+  color: #ff9a8f;
+}
+
+.fish-price.flat,
+.tank-price.flat,
+.tank-change.flat,
+.price-pill.flat {
+  color: var(--foam);
+}
+
+.tank-fish {
+  position: relative;
+  z-index: 1;
+  width: min(168px, 100%);
+  min-height: 112px;
+  padding: 14px 14px 14px 30px;
+  color: var(--foam);
+  text-align: left;
+  cursor: pointer;
+  border: 0;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  overflow: hidden;
+  animation: tankDrift 5.5s ease-in-out infinite;
+}
+
+.tank-fish::after {
+  content: "";
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-left: 18px solid currentColor;
+  opacity: 0.72;
+  transform: translateY(-50%);
+}
+
+.tank-fish::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 22px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.tank-fish.shape-ray {
+  border-radius: 42% 52% 44% 56% / 58% 36% 64% 42%;
+}
+
+.tank-fish.shape-angler {
+  border-radius: 10px 36px 36px 10px;
+}
+
+.tank-fish.shape-orca {
+  border-radius: 999px 30px 30px 999px;
+  border-bottom: 4px solid rgba(255, 255, 255, 0.34);
+}
+
+.tank-fish.shape-sail {
+  border-radius: 999px 28px 42px 999px;
+  border-top: 5px solid rgba(255, 255, 255, 0.34);
+}
+
+.tank-fish.shape-guppy {
+  border-radius: 999px 22px 999px 26px;
+}
+
+.tank-symbol,
+.tank-price,
+.tank-change {
+  display: block;
+  pointer-events: none;
+}
+
+.tank-symbol {
+  font-size: 0.74rem;
+  opacity: 0.72;
+}
+
+.tank-fish strong {
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.tank-price {
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.tank-change {
+  font-size: 0.84rem;
+}
+
+.detail-actions {
+  margin: 14px 0 18px;
+}
+
+.favorite-btn {
+  width: 100%;
+  border: 1px solid rgba(97, 230, 215, 0.22);
+  background: rgba(97, 230, 215, 0.12);
+  color: var(--foam);
+  padding: 12px 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.favorite-btn.active {
+  border-color: rgba(255, 173, 90, 0.38);
+  background: rgba(255, 173, 90, 0.16);
+}
+
+.detail-card {
+  min-height: 420px;
+  padding: 18px;
+}
+
+.detail-card.empty {
+  display: grid;
+  place-items: center;
+}
+
+.detail-empty {
+  max-width: 280px;
+  text-align: center;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.detail-header h3 {
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+}
+
+.detail-score-stack {
+  display: grid;
+  gap: 8px;
+  min-width: 140px;
+}
+
+.score-pill,
+.price-pill {
+  padding: 10px 14px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.score-pill {
+  background: rgba(97, 230, 215, 0.14);
+  border: 1px solid rgba(97, 230, 215, 0.18);
+  color: var(--foam);
+}
+
+.price-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--foam);
+}
+
+.detail-section {
+  margin-bottom: 18px;
+}
+
+.chip-row,
+.match-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip,
+.match-chip {
+  padding: 8px 12px;
+  color: var(--foam);
+  font-size: 0.84rem;
+}
+
+.chip {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.match-chip {
+  background: var(--teal-soft);
+  border: 1px solid rgba(97, 230, 215, 0.2);
+}
+
+.match-chip.muted {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tech-card {
+  padding: 12px;
+}
+
+.tech-card strong,
+.tech-card em {
+  display: block;
+}
+
+.tech-card strong {
+  color: var(--ink);
+  margin: 4px 0 6px;
+  font-style: normal;
+}
+
+.tech-card em {
+  color: var(--teal);
+  font-style: normal;
+  font-size: 0.85rem;
+}
+
+.detail-note {
+  margin: 0;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 0;
+}
+
+.detail-grid dt {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.detail-grid dd {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.bucket-list {
+  display: grid;
+  gap: 12px;
+}
+
+.bucket-item {
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.bucket-item strong {
+  display: block;
+}
+
+.bucket-item button {
+  border: 0;
+  background: rgba(97, 230, 215, 0.12);
+  color: var(--foam);
+  padding: 10px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.bucket-empty {
+  color: var(--muted);
+}
+
+.install-dialog {
+  width: min(420px, calc(100% - 32px));
+  border: 1px solid rgba(151, 209, 231, 0.22);
+  border-radius: 18px;
+  color: var(--ink);
+  background: rgba(4, 19, 31, 0.96);
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+
+.install-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.install-dialog h2 {
+  margin-right: 36px;
+}
+
+.install-dialog p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-15%);
+  }
+
+  to {
+    transform: translateX(15%);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes tankDrift {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: translateY(-5px) translateX(3px);
+  }
+}
+
+@media (max-width: 1180px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .control-panel,
+  .detail-panel,
+  .pond,
+  .aquarium,
+  .bucket {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .pond .control-panel {
+    padding: 0;
+    margin-bottom: 10px;
+  }
+
+  .deck-filter-panel .basic-filter-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .deck-filter-panel .meter {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pond-surface {
+    min-height: 430px;
+  }
+}
+
+@media (max-width: 780px) {
+  .app-shell {
+    width: 100%;
+    padding: 10px 10px 24px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .card,
+  .hero-copy,
+  .hero-note {
+    padding: 14px;
+    border-radius: 16px;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-copy::after,
+  .hero-note,
+  .eyebrow {
+    display: none;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 1rem;
+  }
+
+  .hero-text {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .hero-actions {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .hero-actions .install-btn {
+    grid-column: 1 / -1;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pond {
+    order: 1;
+  }
+
+  .aquarium {
+    order: 3;
+  }
+
+  .detail-panel {
+    order: 4;
+  }
+
+  .bucket {
+    order: 5;
+  }
+
+  .panel-head {
+    margin-bottom: 12px;
+  }
+
+  .panel-head p,
+  .legend {
+    display: none;
+  }
+
+  .basic-filter-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .control-wide {
+    grid-column: 1 / -1;
+  }
+
+  .control span {
+    font-size: 0.78rem;
+  }
+
+  select {
+    min-height: 42px;
+    border-radius: 12px;
+    padding: 9px 10px;
+    font-size: 0.92rem;
+  }
+
+  .toggle {
+    margin: 14px 0;
+    min-height: 38px;
+  }
+
+  .meter {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .meter > div {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .meter strong {
+    font-size: 1.35rem;
+  }
+
+  .strategy-panel {
+    padding: 0;
+    margin-bottom: 0;
+    border-radius: 14px;
+  }
+
+  .strategy-head {
+    padding: 14px;
+    margin-bottom: 0;
+  }
+
+  .strategy-head,
+  .detail-header,
+  .bucket-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .strategy-summary {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+
+  .strategy-body {
+    padding: 0 14px 14px;
+  }
+
+  .strategy-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .strategy-group {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .strategy-group p {
+    font-size: 0.84rem;
+    margin-bottom: 10px;
+  }
+
+  .strategy-grid {
+    gap: 6px;
+  }
+
+  .strategy-pill {
+    width: calc(50% - 3px);
+    min-height: 40px;
+    padding: 8px 10px;
+    border-radius: 12px;
+  }
+
+  .strategy-pill span {
+    font-size: 0.8rem;
+  }
+
+  .pond-head {
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .deck-title-row {
+    gap: 8px;
+  }
+
+  .ticker-search {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .ticker-search input {
+    min-height: 42px;
+    font-size: 0.95rem;
+  }
+
+  .deck-title-row .install-btn {
+    margin-left: auto;
+  }
+
+  .pond .control-panel {
+    padding: 0;
+    border-radius: 16px;
+  }
+
+  .deck-filter-summary {
+    padding: 12px;
+  }
+
+  .deck-filter-body {
+    padding: 0 12px 12px;
+  }
+
+  .deck-filter-panel .basic-filter-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .deck-filter-panel .toggle {
+    margin: 10px 0;
+  }
+
+  .deck-filter-panel .meter {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pond-head p {
+    display: none;
+  }
+
+  .status-chip {
+    padding: 7px 10px;
+    font-size: 0.82rem;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .pond-toolbar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .selected-summary {
+    grid-template-columns: 1fr;
+    gap: 3px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+  }
+
+  .selected-summary em {
+    grid-column: auto;
+    white-space: normal;
+    font-size: 0.78rem;
+  }
+
+  .selected-reading {
+    grid-column: auto;
+    font-size: 0.78rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .pond-toolbar button[hidden] {
+    display: none;
+  }
+
+  .pond-surface {
+    min-height: 360px;
+    border-radius: 16px;
+  }
+
+  .aquarium-head {
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .aquarium-head p {
+    display: none;
+  }
+
+  .aquarium-count {
+    min-width: 58px;
+    padding: 8px 10px;
+    border-radius: 14px;
+  }
+
+  .aquarium-surface {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    min-height: 170px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .tank-fish {
+    width: min(148px, 100%);
+    min-height: 96px;
+    padding: 12px 12px 12px 28px;
+    border-radius: 14px;
+  }
+
+  .tank-fish strong {
+    font-size: 0.92rem;
+  }
+
+  .tank-price {
+    font-size: 1rem;
+  }
+
+  .ripple-a {
+    width: 140px;
+    height: 54px;
+  }
+
+  .ripple-b {
+    width: 120px;
+    height: 44px;
+  }
+
+  .fish {
+    min-height: 48px;
+    padding: 8px 10px 8px 16px;
+    border-radius: 28px 16px 16px 28px;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+  }
+
+  .fish::after {
+    right: -10px;
+    border-top-width: 8px;
+    border-bottom-width: 8px;
+    border-left-width: 12px;
+  }
+
+  .fish.facing-left {
+    border-radius: 16px 28px 28px 16px;
+  }
+
+  .fish.facing-left::after {
+    left: -10px;
+    border-right-width: 12px;
+  }
+
+  .fish strong {
+    font-size: 0.82rem;
+  }
+
+  .fish span {
+    font-size: 0.66rem;
+  }
+
+  .detail-card {
+    min-height: 0;
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .detail-header h3 {
+    font-size: 1.35rem;
+  }
+
+  .detail-score-stack {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+  }
+
+  .chip-row,
+  .match-row {
+    gap: 6px;
+  }
+
+  .chip,
+  .match-chip {
+    border-radius: 999px;
+    padding: 6px 9px;
+    font-size: 0.76rem;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .detail-grid {
+    gap: 10px;
+  }
+
+  .detail-grid dd {
+    font-size: 0.9rem;
+  }
+
+  .bucket-list {
+    gap: 8px;
+  }
+
+  .bucket-item {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .primary-btn,
+  .ghost-btn,
+  .bucket-item button,
+  select {
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 420px) {
+  .strategy-pill {
+    width: 100%;
+  }
+
+  .basic-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-pill,
+  .price-pill {
+    padding: 9px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Tarot presentation layer. The data model still uses the original fish class names. */
+.status-chip,
+.aquarium-count,
+.score-pill,
+.price-pill,
+.tech-card,
+.bucket-item {
+  border-radius: 18px;
+}
+
+.status-chip {
+  border-color: rgba(244, 206, 132, 0.26);
+  background: rgba(244, 206, 132, 0.12);
+  color: var(--gold);
+}
+
+.pond-surface {
+  --draw-x: 50%;
+  --draw-y: 50%;
+  isolation: isolate;
+  min-height: 500px;
+  border: 1px solid rgba(244, 206, 132, 0.18);
+  background:
+    radial-gradient(circle at 18% 16%, rgba(244, 206, 132, 0.16), transparent 10%),
+    radial-gradient(circle at 84% 20%, rgba(114, 234, 216, 0.12), transparent 12%),
+    radial-gradient(circle at center, rgba(141, 120, 255, 0.18), transparent 34%),
+    linear-gradient(135deg, #2a1534 0%, #150e2a 48%, #070512 100%);
+}
+
+.pond-surface::before {
+  z-index: 0;
+  background:
+    radial-gradient(circle, rgba(244, 206, 132, 0.35) 0 1px, transparent 1.6px),
+    linear-gradient(90deg, transparent 0 24px, rgba(244, 206, 132, 0.06) 24px 25px, transparent 25px 50px),
+    linear-gradient(0deg, transparent 0 24px, rgba(244, 206, 132, 0.05) 24px 25px, transparent 25px 50px);
+  background-size: 52px 52px, 50px 50px, 50px 50px;
+  opacity: 0.6;
+  animation: starDrift 16s linear infinite;
+}
+
+.pond-surface::after {
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at var(--draw-x) var(--draw-y), rgba(255, 237, 182, 0.82), rgba(244, 206, 132, 0.22) 15%, transparent 34%),
+    conic-gradient(from 0deg at var(--draw-x) var(--draw-y), transparent, rgba(114, 234, 216, 0.2), transparent, rgba(227, 95, 116, 0.18), transparent);
+}
+
+.pond-surface.is-drawing::after {
+  animation: drawPulse 1200ms ease-out;
+}
+
+.pond-surface.is-drawing .fish.tarot-card:not(.revealed) {
+  filter: brightness(0.58) saturate(0.72);
+}
+
+.casting-line,
+.bobber,
+.ripples {
+  display: none;
+}
+
+.fish.tarot-card {
+  z-index: 2;
+  min-height: 166px;
+  aspect-ratio: 0.66;
+  padding: 13px 11px;
+  color: var(--ink);
+  text-align: center;
+  border: 1px solid rgba(255, 224, 150, 0.52);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 30%),
+    linear-gradient(145deg, #34204e, #161027 62%, #0b0715);
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  display: block;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  animation: cardFloat 5s ease-in-out infinite;
+}
+
+.card-inner {
+  position: absolute;
+  inset: 13px 11px;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transition: transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fish.tarot-card.selected .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-front {
+  grid-template-rows: auto auto 1fr auto auto;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-back {
+  grid-template-rows: auto auto auto auto auto auto 1fr;
+  align-content: start;
+  gap: 8px;
+  padding: 8px 4px 4px;
+  text-align: left;
+  transform: rotateY(180deg);
+}
+
+.fish.tarot-card::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 7px;
+  width: auto;
+  height: auto;
+  border-radius: 13px;
+  border: 1px solid rgba(244, 206, 132, 0.36);
+  background:
+    linear-gradient(90deg, transparent 0 44%, rgba(244, 206, 132, 0.07) 44% 56%, transparent 56%),
+    radial-gradient(circle at 50% 17%, rgba(244, 206, 132, 0.16), transparent 12%),
+    radial-gradient(circle at 50% 83%, rgba(244, 206, 132, 0.12), transparent 14%);
+  transform: none;
+  pointer-events: none;
+}
+
+.fish.tarot-card::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: auto 12px 10px;
+  width: auto;
+  height: 2px;
+  border: 0;
+  background: linear-gradient(90deg, transparent, rgba(244, 206, 132, 0.75), transparent);
+  opacity: 0.72;
+  transform: none;
+  pointer-events: none;
+}
+
+.fish.tarot-card.facing-left {
+  border-radius: 18px;
+}
+
+.fish.tarot-card.facing-left::before,
+.fish.tarot-card.facing-left::after {
+  left: 7px;
+  right: 7px;
+  border-left: 0;
+  border-right: 0;
+}
+
+.fish.tarot-card strong,
+.fish.tarot-card span {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  width: 100%;
+}
+
+.fish.tarot-card strong {
+  align-self: end;
+  color: #fff8df;
+  font-size: 0.95rem;
+  line-height: 1.18;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.fish.tarot-card .card-orbit {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 2px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 206, 132, 0.48);
+  color: var(--gold);
+  background: rgba(244, 206, 132, 0.08);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  opacity: 1;
+}
+
+.card-back-label {
+  color: var(--gold);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+}
+
+.fish.tarot-card .card-back-title {
+  align-self: auto;
+  color: #fff8df;
+  font-size: 0.92rem;
+  line-height: 1.18;
+  -webkit-line-clamp: 2;
+}
+
+.card-back-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 7px 9px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.11);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.card-back-price b {
+  color: inherit;
+  font-size: 1.02rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.card-back-price em {
+  color: inherit;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.card-back-meaning {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 7px 8px;
+  border-radius: 12px;
+  color: #fff4ce;
+  background: rgba(244, 206, 132, 0.1);
+  border: 1px solid rgba(244, 206, 132, 0.12);
+  font-size: 0.62rem;
+  line-height: 1.35;
+  overflow: hidden;
+}
+
+.card-back-meaning span {
+  display: block;
+  width: auto;
+  color: var(--gold);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  white-space: normal;
+  opacity: 1;
+}
+
+.card-back-meaning b {
+  display: -webkit-box;
+  color: #fff4ce;
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1.35;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-back-price.up {
+  color: #6ef2a0;
+}
+
+.card-back-price.down {
+  color: #ff9ca7;
+}
+
+.card-back-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.card-back-metrics span {
+  display: grid;
+  gap: 2px;
+  padding: 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  white-space: normal;
+}
+
+.card-back-metrics em {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-style: normal;
+}
+
+.card-back-metrics b {
+  color: var(--foam);
+  font-size: 0.72rem;
+}
+
+.card-back-chips,
+.card-back-lines {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.card-back-chips span,
+.card-back-lines span {
+  width: auto;
+  padding: 4px 6px;
+  border-radius: 999px;
+  font-size: 0.58rem;
+  white-space: normal;
+}
+
+.card-back-chips span {
+  color: #fff7df;
+  background: rgba(114, 234, 216, 0.14);
+  border: 1px solid rgba(114, 234, 216, 0.16);
+}
+
+.card-back-chips .chip-heading {
+  color: var(--gold);
+  background: rgba(244, 206, 132, 0.11);
+  border-color: rgba(244, 206, 132, 0.18);
+  font-weight: 800;
+}
+
+.card-back-lines span {
+  color: #f8d992;
+  background: rgba(244, 206, 132, 0.11);
+  border: 1px solid rgba(244, 206, 132, 0.15);
+}
+
+.card-back-note {
+  display: -webkit-box;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.fish.tarot-card .card-kicker {
+  color: var(--gold);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  opacity: 0.9;
+}
+
+.fish.tarot-card .fish-price {
+  min-height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 0.72rem;
+  line-height: 1.25;
+  white-space: normal;
+  opacity: 1;
+}
+
+.fish.tarot-card .card-score {
+  width: max-content;
+  max-width: 100%;
+  justify-self: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: #fff4ce;
+  background: rgba(244, 206, 132, 0.14);
+  font-size: 0.68rem;
+  opacity: 1;
+}
+
+.fish.tarot-card.selected {
+  outline: 0;
+  border-color: rgba(255, 235, 173, 0.95);
+  filter: brightness(1.08) saturate(1.15);
+  box-shadow:
+    0 0 0 3px rgba(244, 206, 132, 0.12),
+    0 0 40px rgba(244, 206, 132, 0.34),
+    0 22px 42px rgba(0, 0, 0, 0.38);
+}
+
+.fish.tarot-card.revealed {
+  z-index: 8;
+  animation: cardReveal 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fish.tarot-card.revealed .card-inner {
+  animation: cardInnerSpark 1200ms ease-out;
+}
+
+.fish.tarot-card.strong {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 30%),
+    linear-gradient(145deg, #25524d, #143139 58%, #0b111a);
+}
+
+.fish.tarot-card.watch {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 30%),
+    linear-gradient(145deg, #584022, #2f2130 58%, #100914);
+}
+
+.fish.tarot-card.hot {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 30%),
+    linear-gradient(145deg, #61283a, #2a1428 58%, #0f0714);
+}
+
+.fish.tarot-card.breakout {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 30%),
+    linear-gradient(145deg, #2b3f63, #171f3a 58%, #080914);
+}
+
+.aquarium-surface {
+  border-color: rgba(244, 206, 132, 0.18);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(244, 206, 132, 0.18), transparent 26%),
+    radial-gradient(circle at 80% 100%, rgba(114, 234, 216, 0.12), transparent 28%),
+    repeating-linear-gradient(90deg, rgba(244, 206, 132, 0.04) 0 1px, transparent 1px 58px),
+    linear-gradient(145deg, #21132e, #0d0918);
+}
+
+.aquarium-surface::before {
+  height: 0;
+  background: none;
+}
+
+.tank-fish {
+  width: min(154px, 100%);
+  min-height: 164px;
+  aspect-ratio: 0.72;
+  padding: 14px 12px;
+  color: var(--ink);
+  text-align: center;
+  border: 1px solid rgba(244, 206, 132, 0.34);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #34204e, #151024 62%, #080511);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.26);
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  animation: savedCardDrift 5.5s ease-in-out infinite;
+}
+
+.tank-fish.strong {
+  background: linear-gradient(145deg, #25524d, #143139 58%, #0b111a);
+}
+
+.tank-fish.watch {
+  background: linear-gradient(145deg, #584022, #2f2130 58%, #100914);
+}
+
+.tank-fish.hot {
+  background: linear-gradient(145deg, #61283a, #2a1428 58%, #0f0714);
+}
+
+.tank-fish.breakout {
+  background: linear-gradient(145deg, #2b3f63, #171f3a 58%, #080914);
+}
+
+.tank-fish.theme-ai,
+.tank-fish.theme-pcb,
+.tank-fish.theme-foundry,
+.tank-fish.theme-power,
+.tank-fish.theme-memory,
+.tank-fish.theme-optical,
+.tank-fish.theme-etf {
+  color: var(--ink);
+}
+
+.tank-fish::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(244, 206, 132, 0.26);
+  background: none;
+}
+
+.tank-fish::after {
+  content: "";
+  position: absolute;
+  inset: 10px auto auto 50%;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(244, 206, 132, 0.34);
+  border-radius: 50%;
+  background: rgba(244, 206, 132, 0.08);
+  opacity: 0.72;
+  transform: translateX(-50%);
+}
+
+.tank-fish.shape-ray,
+.tank-fish.shape-angler,
+.tank-fish.shape-orca,
+.tank-fish.shape-sail,
+.tank-fish.shape-guppy {
+  border-radius: 16px;
+}
+
+.tank-symbol,
+.tank-price,
+.tank-change,
+.tank-fish strong {
+  position: relative;
+  z-index: 1;
+}
+
+.tank-symbol {
+  color: var(--gold);
+  font-size: 0.72rem;
+  opacity: 0.9;
+}
+
+.tank-fish strong {
+  color: #fff8df;
+  font-size: 0.98rem;
+}
+
+.tank-price {
+  font-size: 1.05rem;
+}
+
+.fish-price.up,
+.tank-price.up,
+.tank-change.up,
+.price-pill.up {
+  color: #6ef2a0;
+}
+
+.fish-price.down,
+.tank-price.down,
+.tank-change.down,
+.price-pill.down {
+  color: #ff9ca7;
+}
+
+.fish-price.flat,
+.tank-price.flat,
+.tank-change.flat,
+.price-pill.flat {
+  color: #f7dfaa;
+}
+
+.fish-price.up,
+.tank-price.up,
+.tank-change.up,
+.price-pill.up,
+.card-back-price.up,
+.quick-price.up,
+.selected-summary.up em {
+  color: #ff5f73;
+  text-shadow: 0 0 12px rgba(255, 95, 115, 0.42);
+  animation: bullishBlink 1.15s ease-in-out infinite;
+}
+
+.fish-price.down,
+.tank-price.down,
+.tank-change.down,
+.price-pill.down,
+.card-back-price.down,
+.quick-price.down,
+.selected-summary.down em {
+  color: #6ef2a0;
+  text-shadow: none;
+  animation: none;
+}
+
+@keyframes starDrift {
+  from {
+    background-position: 0 0, 0 0, 0 0;
+  }
+
+  to {
+    background-position: 52px 52px, 50px 0, 0 50px;
+  }
+}
+
+@keyframes bullishBlink {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+
+  50% {
+    opacity: 0.58;
+    filter: brightness(1.45);
+  }
+}
+
+@keyframes cardFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.4deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(0.7deg);
+  }
+}
+
+@keyframes savedCardDrift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.3deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(0.5deg);
+  }
+}
+
+@keyframes cardReveal {
+  0% {
+    transform: perspective(800px) translateY(0) rotateY(0deg) scale(1);
+  }
+
+  18% {
+    transform: perspective(800px) translateY(-10px) rotateZ(-1.8deg) scale(1.05);
+    filter: brightness(1.3);
+  }
+
+  50% {
+    transform: perspective(800px) translateY(-18px) rotateY(72deg) scale(1.12);
+    filter: brightness(1.65) saturate(1.35);
+  }
+
+  100% {
+    transform: perspective(800px) translateY(0) rotateY(0deg) scale(1);
+  }
+}
+
+@keyframes drawPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.42) rotate(0deg);
+  }
+
+  22% {
+    opacity: 1;
+  }
+
+  58% {
+    opacity: 0.92;
+    transform: scale(0.96) rotate(22deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.55) rotate(48deg);
+  }
+}
+
+@keyframes cardInnerSpark {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 rgba(244, 206, 132, 0));
+  }
+
+  45% {
+    filter: drop-shadow(0 0 22px rgba(244, 206, 132, 0.72));
+  }
+}
+
+@keyframes mobileCardReveal {
+  0% {
+    transform: perspective(720px) rotateY(0deg) translateY(0) scale(0.96);
+    filter: brightness(1);
+  }
+
+  42% {
+    transform: perspective(720px) rotateY(-32deg) translateY(-18px) scale(1.09);
+    filter: brightness(1.55) saturate(1.28);
+  }
+
+  100% {
+    transform: perspective(720px) rotateY(0deg) translateY(0) scale(1);
+    filter: brightness(1.08);
+  }
+}
+
+@media (max-width: 780px) {
+  .pond-surface {
+    min-height: 390px;
+    border-radius: 16px;
+  }
+
+  .fish.tarot-card {
+    min-height: 158px;
+    padding: 11px 8px;
+    border-radius: 15px;
+  }
+
+  .fish.tarot-card::before {
+    inset: 6px;
+    border-radius: 11px;
+  }
+
+  .fish.tarot-card .card-orbit {
+    width: 34px;
+    height: 34px;
+    font-size: 0.9rem;
+  }
+
+  .fish.tarot-card .card-kicker {
+    font-size: 0.58rem;
+  }
+
+  .fish.tarot-card strong {
+    font-size: 0.8rem;
+  }
+
+  .fish.tarot-card .fish-price {
+    min-height: 30px;
+    font-size: 0.64rem;
+  }
+
+  .fish.tarot-card .card-score {
+    font-size: 0.6rem;
+    padding: 3px 7px;
+  }
+
+  .aquarium-surface {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tank-fish {
+    width: min(132px, 100%);
+    min-height: 150px;
+    padding: 12px 9px;
+  }
+}
+
+.quick-detail-card {
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid rgba(244, 206, 132, 0.18);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(244, 206, 132, 0.1), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.quick-detail-card.empty {
+  display: grid;
+  place-items: center;
+  min-height: 112px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.quick-detail-card.empty p {
+  max-width: 360px;
+  margin: 0;
+}
+
+.quick-detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.quick-eyebrow {
+  margin: 0 0 6px;
+  color: var(--gold);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.quick-detail-head h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.quick-price {
+  flex: 0 0 auto;
+  max-width: 46%;
+  padding: 9px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  font-weight: 800;
+  text-align: center;
+}
+
+.quick-summary {
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.quick-tarot-reading {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  color: #fff4ce;
+  background: rgba(244, 206, 132, 0.1);
+  border: 1px solid rgba(244, 206, 132, 0.14);
+}
+
+.quick-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.quick-metrics div {
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.quick-metrics span,
+.quick-notes dt {
+  display: block;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.quick-metrics strong {
+  display: block;
+  color: var(--foam);
+  margin-top: 4px;
+}
+
+.quick-chip-row,
+.quick-line-row {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.quick-chip-row span,
+.quick-line-row span {
+  padding: 7px 9px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.quick-chip-row span {
+  color: #fff7df;
+  background: rgba(114, 234, 216, 0.14);
+  border: 1px solid rgba(114, 234, 216, 0.16);
+}
+
+.quick-line-row span {
+  color: #f8d992;
+  background: rgba(244, 206, 132, 0.11);
+  border: 1px solid rgba(244, 206, 132, 0.15);
+}
+
+.quick-notes {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.quick-notes div {
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.quick-notes dd {
+  margin: 4px 0 0;
+  color: var(--ink);
+}
+
+.quick-favorite-btn {
+  width: 100%;
+  border: 1px solid rgba(244, 206, 132, 0.22);
+  border-radius: 16px;
+  background: rgba(244, 206, 132, 0.12);
+  color: var(--foam);
+  padding: 12px 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.quick-favorite-btn.active {
+  border-color: rgba(114, 234, 216, 0.28);
+  background: rgba(114, 234, 216, 0.14);
+}
+
+@media (max-width: 780px) {
+  .layout {
+    gap: 10px;
+  }
+
+  .pond {
+    order: 1;
+    position: relative;
+  }
+
+  .aquarium {
+    order: 3;
+  }
+
+  .detail-panel,
+  .bucket {
+    display: none;
+  }
+
+  .pond-head {
+    align-items: flex-start;
+  }
+
+  .pond-toolbar {
+    position: relative;
+    z-index: 3;
+  }
+
+  .pond-surface {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    min-height: 470px !important;
+    padding: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
+    touch-action: pan-x;
+  }
+
+  .pond-surface::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pond-surface .fish.tarot-card {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    flex: 0 0 min(78vw, 310px);
+    width: min(78vw, 310px) !important;
+    min-height: 430px;
+    padding: 18px 15px;
+    border-radius: 22px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .pond-surface .card-inner {
+    inset: 18px 15px;
+  }
+
+  .pond-surface .fish.tarot-card::before {
+    inset: 10px;
+    border-radius: 16px;
+  }
+
+  .pond-surface .fish.tarot-card .card-orbit {
+    width: 58px;
+    height: 58px;
+    font-size: 1.25rem;
+  }
+
+  .pond-surface .fish.tarot-card .card-kicker {
+    font-size: 0.72rem;
+  }
+
+  .pond-surface .fish.tarot-card strong {
+    font-size: 1.16rem;
+  }
+
+  .pond-surface .fish.tarot-card .fish-price {
+    min-height: 42px;
+    font-size: 0.88rem;
+  }
+
+  .pond-surface .fish.tarot-card .card-score {
+    font-size: 0.78rem;
+    padding: 6px 11px;
+  }
+
+  .pond-surface .card-back {
+    gap: 10px;
+    padding: 14px 10px 8px;
+  }
+
+  .pond-surface .card-back-label {
+    font-size: 0.76rem;
+  }
+
+  .pond-surface .fish.tarot-card .card-back-title {
+    font-size: 1.18rem;
+  }
+
+  .pond-surface .card-back-price {
+    min-height: 56px;
+    padding: 10px 12px;
+    border-radius: 16px;
+  }
+
+  .pond-surface .card-back-price b {
+    font-size: 1.36rem;
+  }
+
+  .pond-surface .card-back-price em {
+    font-size: 0.96rem;
+  }
+
+  .pond-surface .card-back-meaning {
+    line-height: 1.42;
+  }
+
+  .pond-surface .card-back-meaning span {
+    font-size: 0.68rem;
+  }
+
+  .pond-surface .card-back-meaning b {
+    font-size: 0.82rem;
+  }
+
+  .pond-surface .card-back-metrics span {
+    padding: 9px 8px;
+    border-radius: 12px;
+  }
+
+  .pond-surface .card-back-metrics em {
+    font-size: 0.68rem;
+  }
+
+  .pond-surface .card-back-metrics b {
+    font-size: 0.88rem;
+  }
+
+  .pond-surface .card-back-chips span,
+  .pond-surface .card-back-lines span {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
+
+  .pond-surface .card-back-note {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    -webkit-line-clamp: 4;
+  }
+
+  .pond-surface .fish.tarot-card.revealed {
+    animation: mobileCardReveal 760ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .quick-detail-card.empty {
+    display: none;
+  }
+
+  .quick-detail-card.active {
+    display: none;
+  }
+
+  .quick-detail-head {
+    align-items: flex-start;
+  }
+
+  .quick-detail-head h3 {
+    font-size: 1.15rem;
+  }
+
+  .quick-price {
+    max-width: 44%;
+    font-size: 0.84rem;
+  }
+
+  .quick-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .quick-metrics div,
+  .quick-notes div {
+    padding: 9px;
+    border-radius: 12px;
+  }
+
+  .quick-summary,
+  .quick-notes dd {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .pond-surface .fish.tarot-card {
+    flex-basis: 80vw;
+    width: 80vw !important;
+    min-height: 414px;
+  }
+
+  .quick-metrics {
+    grid-template-columns: 1fr;
+  }
+}

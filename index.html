@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>股海塔羅</title>
+    <meta name="theme-color" content="#160f28" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="股海塔羅" />
+    <meta
+      name="description"
+      content="把台股全市場選股變成手機也好操作的塔羅抽卡，牌面顯示股價、漲跌、均線、動能與策略命中條件。"
+    />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="layout">
+        <section class="control-panel card">
+          <div class="panel-head">
+            <h2>牌陣篩選器</h2>
+            <p>先縮小範圍，再用專業條件把目標牌庫一層層篩出來。</p>
+          </div>
+
+          <div class="basic-filter-grid">
+            <label class="control">
+              <span>時間週期</span>
+              <select id="horizon-filter">
+                <option value="all" selected>全部時間</option>
+                <option value="1-4w">1-4 週</option>
+                <option value="1-3m">1-3 個月</option>
+              </select>
+            </label>
+
+            <label class="control">
+              <span>風險等級</span>
+              <select id="risk-filter">
+                <option value="all" selected>全部風險</option>
+                <option value="low">低風險</option>
+                <option value="medium">中等</option>
+                <option value="high">高波動</option>
+              </select>
+            </label>
+
+            <label class="control control-wide">
+              <span>主題族群</span>
+              <select id="theme-filter">
+                <option value="all">全部主題</option>
+                <option value="ai">AI / 伺服器</option>
+                <option value="pcb">PCB / CCL</option>
+                <option value="foundry">晶圓代工 / IC 設計</option>
+                <option value="power">電源 / 散熱</option>
+                <option value="memory">記憶體 / 儲存</option>
+                <option value="optical">光通訊 / 光電</option>
+                <option value="etf">ETF</option>
+                <option value="quiet">默默轉強</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="toggle">
+            <input type="checkbox" id="avoid-hot-toggle" />
+            <span>避開過熱門牌</span>
+          </label>
+
+          <div class="meter">
+            <div>
+              <p class="meter-label">目前牌數</p>
+              <strong id="fish-count">0</strong>
+            </div>
+            <div>
+              <p class="meter-label">平均信心</p>
+              <strong id="avg-score">0</strong>
+            </div>
+          </div>
+
+          <details class="strategy-panel" id="strategy-panel">
+            <summary class="strategy-head">
+              <div>
+                <h3>專業選股條件</h3>
+                <p id="strategy-summary" class="strategy-summary">目前未啟用進階條件</p>
+              </div>
+              <span class="mini-btn strategy-toggle-label">點開條件</span>
+            </summary>
+            <div class="strategy-body">
+              <div class="strategy-actions">
+                <p>可同時勾選多個條件，越多條件越像真正的股票篩選器。</p>
+                <button id="clear-strategy-btn" class="mini-btn" type="button">清除</button>
+              </div>
+              <div id="strategy-filters" class="strategy-groups"></div>
+            </div>
+          </details>
+
+          <div class="legend">
+            <p class="legend-title">牌色說明</p>
+            <p><span class="dot dot-strong"></span> 權杖牌：基本面和趨勢都偏強。</p>
+            <p><span class="dot dot-watch"></span> 星幣牌：題材還在，但節奏要再等。</p>
+            <p><span class="dot dot-breakout"></span> 寶劍牌：短線有新高或轉強訊號。</p>
+            <p><span class="dot dot-hot"></span> 聖杯牌：人氣很旺，追價風險也更高。</p>
+          </div>
+        </section>
+
+        <section class="pond card">
+          <div class="pond-head">
+            <div>
+              <div class="deck-title-row">
+                <h2>塔羅牌庫</h2>
+                <form class="ticker-search" id="ticker-search-form" autocomplete="off">
+                  <input
+                    id="ticker-search-input"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="輸入代號"
+                    aria-label="輸入股票代號"
+                  />
+                  <button class="mini-btn" type="submit">叫牌</button>
+                </form>
+                <button id="install-btn" class="mini-btn install-btn" type="button">放到桌面</button>
+              </div>
+              <p>股票牌會依照條件重新洗牌，手機上也能看清楚整副牌。</p>
+            </div>
+            <div class="status-chip" id="pond-status">等待抽牌</div>
+          </div>
+
+          <div class="selected-summary empty" id="selected-summary">
+            <span>目前選牌</span>
+            <strong>尚未選牌</strong>
+            <em>抽牌或左右滑動點選卡牌後，這裡會保留最新紀錄。</em>
+          </div>
+
+          <div class="pond-toolbar">
+            <button id="mobile-cast-btn" class="primary-btn" type="button">抽牌</button>
+            <button id="mobile-reset-btn" class="ghost-btn" type="button">重設牌陣</button>
+            <button id="mobile-install-btn" class="ghost-btn" type="button">放到桌面</button>
+          </div>
+
+          <div class="pond-surface" id="pond-surface">
+            <div class="casting-line" id="casting-line"></div>
+            <div class="bobber" id="bobber"></div>
+            <div class="ripples ripple-a"></div>
+            <div class="ripples ripple-b"></div>
+          </div>
+
+          <article id="quick-detail-card" class="quick-detail-card empty" aria-live="polite">
+            <p>左右滑動卡牌，長按或點選一張牌，就會在這裡看到股票分析。</p>
+          </article>
+        </section>
+
+        <section class="aquarium card">
+          <div class="aquarium-head">
+            <div>
+              <h2>我的牌盒</h2>
+              <p>把喜歡的股票牌收藏起來，牌盒會集中顯示目前價格、漲跌和更新狀態。</p>
+            </div>
+            <div class="aquarium-count">
+              <strong id="aquarium-count">0</strong>
+              <span>收藏</span>
+            </div>
+          </div>
+          <div class="aquarium-surface" id="aquarium-surface">
+            <p class="aquarium-empty">還沒有收藏的股票牌。先抽一張牌，再加入我的牌盒。</p>
+          </div>
+        </section>
+
+        <section class="detail-panel card">
+          <div class="panel-head">
+            <h2>牌面解讀</h2>
+            <p>點一張牌就能看到題材、風險、進場思路，還有它命中的技術條件。</p>
+          </div>
+
+          <article id="detail-card" class="detail-card empty">
+            <p class="detail-empty">先抽一張牌，這裡就會展開更完整的觀察與選股重點。</p>
+          </article>
+        </section>
+
+        <section class="bucket card">
+          <div class="panel-head">
+            <h2>最近抽到</h2>
+            <p>把剛剛看過的股票牌先放進紀錄，方便來回比較。</p>
+          </div>
+          <div id="bucket-list" class="bucket-list">
+            <p class="bucket-empty">抽牌紀錄還是空的。</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="detail-template">
+      <div class="detail-header">
+        <div>
+          <p class="detail-kicker"></p>
+          <h3></h3>
+        </div>
+        <div class="detail-score-stack">
+          <div class="score-pill"></div>
+          <div class="price-pill"></div>
+        </div>
+      </div>
+
+      <p class="detail-summary"></p>
+
+      <div class="detail-actions">
+        <button class="favorite-btn" type="button"></button>
+      </div>
+
+      <section class="detail-section">
+        <p class="detail-section-title">牌面標籤</p>
+        <div class="chip-row"></div>
+      </section>
+
+      <section class="detail-section">
+        <p class="detail-section-title">命中牌義</p>
+        <div class="match-row"></div>
+      </section>
+
+      <section class="detail-section">
+        <p class="detail-section-title">均線星象</p>
+        <div class="tech-grid"></div>
+      </section>
+
+      <dl class="detail-grid">
+        <div>
+          <dt>為什麼值得觀察</dt>
+          <dd class="reason"></dd>
+        </div>
+        <div>
+          <dt>可能催化劑</dt>
+          <dd class="catalyst"></dd>
+        </div>
+        <div>
+          <dt>進場想法</dt>
+          <dd class="entry"></dd>
+        </div>
+        <div>
+          <dt>風險提醒</dt>
+          <dd class="risk"></dd>
+        </div>
+      </dl>
+    </template>
+
+    <dialog id="install-dialog" class="install-dialog">
+      <form method="dialog">
+        <button class="dialog-close" aria-label="關閉">×</button>
+      </form>
+      <h2>安裝到手機桌面</h2>
+      <p id="install-message">
+        如果你是在手機瀏覽器開啟，可以把這副市場塔羅安裝成 App。iPhone 用 Safari
+        的分享選單加入主畫面；Android 則可用瀏覽器的安裝按鈕。
+      </p>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
