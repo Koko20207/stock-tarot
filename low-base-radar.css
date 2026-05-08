@@ -1,0 +1,130 @@
+.card-back-radar {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 7px 8px;
+  border-radius: 12px;
+  background: rgba(114, 234, 216, 0.09);
+  border: 1px solid rgba(114, 234, 216, 0.14);
+  font-size: 0.6rem;
+  line-height: 1.32;
+  overflow: hidden;
+}
+
+.card-back-radar span {
+  display: block;
+  width: auto;
+  color: var(--foam);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  white-space: normal;
+}
+
+.card-back-radar b {
+  display: -webkit-box;
+  color: #eafffb;
+  font-size: 0.64rem;
+  font-weight: 800;
+  line-height: 1.32;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-back-radar.strong,
+.card-back-radar.quiet,
+.quick-radar-note.strong,
+.quick-radar-note.quiet {
+  background: rgba(114, 234, 216, 0.13);
+  border-color: rgba(114, 234, 216, 0.24);
+}
+
+.card-back-radar.hot,
+.quick-radar-note.hot {
+  background: rgba(255, 95, 115, 0.11);
+  border-color: rgba(255, 95, 115, 0.22);
+}
+
+.quick-radar-note {
+  display: grid;
+  gap: 5px;
+  margin: 0 0 10px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(114, 234, 216, 0.1);
+  border: 1px solid rgba(114, 234, 216, 0.16);
+}
+
+.quick-radar-note span {
+  color: var(--foam);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.quick-radar-note strong {
+  color: #fff8df;
+  font-size: 1rem;
+}
+
+.quick-radar-note p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.quick-data-note {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.055);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.radar-chip-row span,
+.chip.radar-badge,
+.chip.radar-strong,
+.chip.radar-quiet,
+.chip.data-fresh,
+.chip.data-public {
+  color: #eafffb;
+  background: rgba(114, 234, 216, 0.13);
+  border: 1px solid rgba(114, 234, 216, 0.18);
+}
+
+.chip.radar-hot,
+.chip.data-stale,
+.chip.data-cached {
+  color: #ffd4d9;
+  background: rgba(255, 95, 115, 0.11);
+  border: 1px solid rgba(255, 95, 115, 0.18);
+}
+
+@media (max-width: 780px) {
+  .pond-surface {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
+    touch-action: pan-x pan-y;
+  }
+
+  .pond-surface .fish.tarot-card {
+    touch-action: pan-x pan-y;
+  }
+
+  .pond-surface .card-back-radar {
+    padding: 9px 10px;
+    line-height: 1.38;
+  }
+
+  .pond-surface .card-back-radar span {
+    font-size: 0.68rem;
+  }
+
+  .pond-surface .card-back-radar b {
+    font-size: 0.78rem;
+  }
+}
