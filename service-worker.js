@@ -1,9 +1,11 @@
-const CACHE_NAME = "stock-tarot-v16";
+const CACHE_NAME = "stock-tarot-v17";
 const APP_FILES = [
   "./",
   "./index.html",
   "./styles.css",
+  "./low-base-radar.css",
   "./app.js",
+  "./low-base-radar.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
