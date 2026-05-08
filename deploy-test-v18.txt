@@ -1,0 +1,2 @@
+stock-tarot deploy test v18
+如果 Netlify 有成功部署 GitHub main 分支，這個檔案網址會打得開。
