@@ -1,4 +1,4 @@
-const CACHE_NAME = "stock-tarot-v13";
+const CACHE_NAME = "stock-tarot-v16";
 const APP_FILES = [
   "./",
   "./index.html",
@@ -9,6 +9,21 @@ const APP_FILES = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
 ];
+
+const MOBILE_TOUCH_FIX_CSS = `
+@media (max-width: 780px) {
+  .pond-surface {
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-x pan-y !important;
+  }
+
+  .pond-surface .fish.tarot-card {
+    touch-action: pan-x pan-y !important;
+  }
+}
+`;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -32,6 +47,44 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") {
+    return;
+  }
+
+  const requestUrl = new URL(event.request.url);
+
+  if (
+    requestUrl.origin === self.location.origin &&
+    requestUrl.pathname.endsWith("/styles.css")
+  ) {
+    event.respondWith(
+      fetch(event.request, { cache: "no-store" })
+        .then((response) => response.text())
+        .then((css) =>
+          new Response(`${css}\n${MOBILE_TOUCH_FIX_CSS}`, {
+            headers: {
+              "Content-Type": "text/css; charset=utf-8",
+              "Cache-Control": "no-cache",
+            },
+          })
+        )
+        .catch(() =>
+          caches.match(event.request).then((cached) => {
+            if (!cached) {
+              return fetch(event.request);
+            }
+
+            return cached.text().then(
+              (css) =>
+                new Response(`${css}\n${MOBILE_TOUCH_FIX_CSS}`, {
+                  headers: {
+                    "Content-Type": "text/css; charset=utf-8",
+                    "Cache-Control": "no-cache",
+                  },
+                })
+            );
+          })
+        )
+    );
     return;
   }
 
