@@ -2,6 +2,8 @@
   publish = "."
   functions = "netlify/functions"
 
+# Deploy marker: low-base-radar-v17 2026-05-09T01:25+08:00
+
 [[headers]]
   for = "/service-worker.js"
   [headers.values]
