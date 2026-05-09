@@ -1,11 +1,12 @@
-const CACHE_NAME = "stock-tarot-v17";
+const CACHE_NAME = "stock-tarot-v21";
 const APP_FILES = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./low-base-radar.css",
-  "./app.js",
-  "./low-base-radar.js",
+  "./styles.css?v=21",
+  "./low-base-radar.css?v=21",
+  "./app.js?v=21",
+  "./low-base-radar.js?v=21",
+  "./github-pages-market-cache.js?v=21",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
@@ -53,6 +54,14 @@ self.addEventListener("fetch", (event) => {
   }
 
   const requestUrl = new URL(event.request.url);
+
+  if (
+    requestUrl.origin === self.location.origin &&
+    requestUrl.pathname.endsWith("/market-cache.json")
+  ) {
+    event.respondWith(fetch(event.request, { cache: "no-store" }));
+    return;
+  }
 
   if (
     requestUrl.origin === self.location.origin &&
