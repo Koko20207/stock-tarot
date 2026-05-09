@@ -30,6 +30,7 @@
         universeCount: payload.universeCount,
         mode: "cache",
       });
+      state.marketMode = "cache";
       localStorage.setItem(
         SCAN_STORAGE_KEY,
         JSON.stringify({
