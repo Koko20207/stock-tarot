@@ -1,0 +1,45 @@
+name: Update market cache
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "app.js"
+      - "scripts/build-market-cache.js"
+      - "netlify/functions/market-scan.js"
+      - ".github/workflows/update-market-cache.yml"
+  schedule:
+    - cron: "5 1-8 * * 1-5"
+
+permissions:
+  contents: write
+
+jobs:
+  update-market-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build market cache
+        run: node scripts/build-market-cache.js "$RUNNER_TEMP/market-cache.json"
+
+      - name: Publish cache to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin gh-pages
+          git checkout gh-pages
+          cp "$RUNNER_TEMP/market-cache.json" market-cache.json
+          git add market-cache.json
+          git commit -m "Update market cache" || echo "No market cache changes"
+          git push origin gh-pages
