@@ -4,8 +4,24 @@
 
 部署到 Netlify 後會掃描上市與上櫃市場、避開興櫃股，再從全市場挑出符合均線、趨勢、量價與默默轉強條件的股票牌。若資料源暫時失敗，畫面會使用上次快取；沒有新資料時只顯示牌庫，不顯示示範股價。
 
-抽卡牌面會顯示目前股價、漲跌幅、均線位置、20 日動能、命中策略與風險提醒。
-手機版改成左右滑動的大卡牌，長按或點選卡牌即可在同一個牌庫框中看到快速分析，減少上下移動畫面。
+抽卡牌面會顯示目前股價、漲跌幅、均線位置、20 日動能、命中策略與風險提醒。手機版改成左右滑動的大卡牌，長按或點選卡牌即可在同一個排庫框中看到快速分析，減少上下移動畫面。
+
+## 專案方向
+
+這個 repo 現在不只是靜態股票工具，也開始整理成一套可維護的研究流程：
+
+- work-hour candidate capture
+- after-work review workflow
+- low-base breakout screening labels
+- lightweight parsing tools for fast note capture
+- HERMES-oriented stock workflow notes
+
+相關文件：
+
+- [HERMES_STOCK_WORKFLOW.md](./HERMES_STOCK_WORKFLOW.md)
+- [ROADMAP.md](./ROADMAP.md)
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
+- [CHANGELOG.md](./CHANGELOG.md)
 
 ## 最推薦上傳位置
 
@@ -29,7 +45,7 @@
 
 原因是全市場掃描需要 `netlify/functions/market-scan.js`，即時價格更新需要 `netlify/functions/market-data.js`；Git 連線部署或 Netlify CLI 會比較完整地部署 Function。
 
-手機使用方式：
+## 手機使用方式
 
 1. Android Chrome 通常會出現安裝提示，也可以按頁面上的「安裝」。
 2. iPhone Safari 請按分享按鈕，再選「加入主畫面」。
@@ -54,6 +70,16 @@
 - `netlify/functions/`
 
 `scripts/` 只是用來重新產生圖示，上線時保留或移除都可以。
+
+## 開發中的輕量工具
+
+這個 repo 已經開始加入簡單可執行工具，例如快速解析記錄格式：
+
+```text
+股海釣魚 8046 南電 TW 今天放量站上月線
+```
+
+未來會把這類輸入轉成更穩定的候選股資料格式，方便晚上批次檢查。
 
 ## 注意
 
