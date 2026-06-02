@@ -8,3 +8,4 @@
 - added code of conduct
 - documented HERMES-oriented stock workflow direction
 - prepared the repository for more visible open-source maintenance
+- added sample review outputs for watchlist labeling
