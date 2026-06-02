@@ -1,0 +1,12 @@
+{
+  "name": "stock-tarot",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "type": "module",
+  "description": "Stock watchlist workflow and lightweight tooling for candidate capture and review.",
+  "scripts": {
+    "parse:capture": "node scripts/parse_capture.js",
+    "test:parser": "node scripts/test_parse_capture.js"
+  }
+}
